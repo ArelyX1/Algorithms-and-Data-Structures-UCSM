@@ -36,6 +36,12 @@ public class Rectangulo implements Figura {
         return punto2;
     }
 
+    public static double calcularDistancia(Rectangulo rect) {
+        Coordenada c1 = rect.getPunto1();
+        Coordenada c2 = rect.getPunto2();
+        return Math.sqrt(Math.pow(c2.getX() - c1.getX(), 2) + Math.pow(c2.getY() - c1.getY(), 2));
+    }
+
     @Override
     public String toString() {
         return "[" + punto1 + ", " + punto2 + "]";
@@ -48,7 +54,7 @@ class DibujoRectangulo extends JPanel {
 
     public DibujoRectangulo(FigureContainer rectangulos) {
         this.rectangulos = rectangulos;
-        this.ListaIntersectados = new FigureContainer(); // Inicializar ListaIntersectados
+        this.ListaIntersectados = new FigureContainer();
     }
 
     @Override
@@ -64,12 +70,13 @@ class DibujoRectangulo extends JPanel {
             g2d.drawRect(x, y, ancho, alto);
         }
 
-        // Comparar todos los elementos entre sí
+        // Se comparan, VIVA EL OPEN SOURCE
         for (int a = 0; a < rectangulos.size(); a++) {
             Rectangulo rectA = (Rectangulo) rectangulos.get(a);
             for (int b = a + 1; b < rectangulos.size(); b++) {
                 Rectangulo rectB = (Rectangulo) rectangulos.get(b);
                 if (Verificador.isSuperposicion(rectA, rectB)) {
+                    //agregando el rectangulo interseccion a la lista y y
                     ListaIntersectados.add(new Rectangulo(
                         Verificador.getPunto1Interseccion(rectA, rectB),
                         Verificador.getPunto2Interseccion(rectA, rectB)
@@ -79,12 +86,13 @@ class DibujoRectangulo extends JPanel {
                         Verificador.getPunto1Interseccion(rectA, rectB),
                         Verificador.getPunto2Interseccion(rectA, rectB)
                     )));
+                } else {
+                    System.out.println("Son disjuntos: " + rectA + " y " + rectB);
                 }
-                System.out.println("Son disjuntos: " + rectA + " y " + rectB);
             }
         }
 
-        g2d.setColor(Color.RED);
+        g2d.setColor(Color.MAGENTA);
         for (int i = 0; i < ListaIntersectados.size(); i++) {
             Rectangulo rect = (Rectangulo) ListaIntersectados.get(i);
             int x = (int) Math.round(rect.getPunto1().getX());
