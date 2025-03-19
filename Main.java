@@ -15,17 +15,17 @@ public class Main {
         int i = 1;
         FigureContainer contenedor = new FigureContainer();
         DefaultTableModel tableModel = new DefaultTableModel();
-        tableModel.addColumn("Rectangulo n°");
+        tableModel.addColumn("Rectángulo #");
         tableModel.addColumn("Coordenadas");
         tableModel.addColumn("Distancia");
-        tableModel.addColumn("Area");
+        tableModel.addColumn("Área");
 
         JTable table = new JTable(tableModel);
         JScrollPane scrollPane = new JScrollPane(table);
 
         while (true) {
             double x1 = 0.0, y1 = 0.0, x2 = 0.0, y2 = 0.0;
-            System.out.println("Ingrese las coordenadas para el rectangulo n°: " + i++);
+            System.out.println("Ingrese las coordenadas para el rectángulo n°: " + i);
             System.out.println("Ingrese la coordenada x1: ");
             x1 = scanner.nextDouble();
             if (x1 == -1) break;
@@ -40,10 +40,11 @@ public class Main {
             if (y2 == -1) break;
 
             Rectangulo rectangulo = new Rectangulo(new Coordenada(x1, y1), new Coordenada(x2, y2));
-            contenedor.add(rectangulo);
-            tableModel.addRow(new Object[]{i - 1, rectangulo.toString(), Rectangulo.calcularDistancia(rectangulo), Rectangulo.area(rectangulo)});
+            contenedor.add(rectangulo, Rectangulo.area(rectangulo));
+            tableModel.addRow(new Object[]{i, rectangulo.toString(), Rectangulo.calcularDistancia(rectangulo), contenedor.getArea(i - 1)});
+            i++;
         }
-
+        System.out.println("Numero de rectangulos ingresados: " + Rectangulo.numRect);
         JFrame f = new JFrame("Los rectángulos papus");
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         f.setSize(1400, 900);
@@ -53,7 +54,7 @@ public class Main {
         panelDibujo.add(dibujo, BorderLayout.CENTER);
 
         JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, scrollPane, panelDibujo);
-        splitPane.setDividerLocation(400); 
+        splitPane.setDividerLocation(400);
 
         f.add(splitPane);
         f.setVisible(true);

@@ -10,18 +10,24 @@ interface Figura {
 
 public class Rectangulo implements Figura {
     private Coordenada punto1, punto2;
-
-    public Rectangulo(Coordenada pun_a, Coordenada pun_b) {
-        this.punto1 = pun_a;
-        this.punto2 = pun_b;
+    public static int numRect = 0;
+    public Rectangulo(Coordenada p1, Coordenada p2) {
+        double minX = Math.min(p1.getX(), p2.getX());
+        double minY = Math.min(p1.getY(), p2.getY());
+        double maxX = Math.max(p1.getX(), p2.getX());
+        double maxY = Math.max(p1.getY(), p2.getY());
+        numRect ++;
+        this.punto1 = new Coordenada(minX, minY);
+        this.punto2 = new Coordenada(maxX, maxY);
     }
+    
 
     public double getBase() {
-        return (punto2.getX() - punto1.getX());
+        return Math.abs(punto2.getX() - punto1.getX());
     }
 
     public double getAlto() {
-        return (punto2.getY() - punto1.getY());
+        return Math.abs(punto2.getY() - punto1.getY());
     }
 
     public static double area(Rectangulo rect) {
@@ -63,11 +69,12 @@ class DibujoRectangulo extends JPanel {
         Graphics2D g2d = (Graphics2D) g;
         for (int a = 0; a < rectangulos.size(); a++) {
             Rectangulo rect = (Rectangulo) rectangulos.get(a);
-            int x = (int) Math.round(rect.getPunto1().getX());
-            int y = (int) Math.round(rect.getPunto1().getY());
-            int ancho = (int) Math.round(rect.getBase());
-            int alto = (int) Math.round(rect.getAlto());
-            g2d.drawRect(x, y, ancho, alto);
+            g2d.drawRect(
+                (int) Math.round(rect.getPunto1().getX()), 
+                (int) Math.round(rect.getPunto1().getY()), 
+                (int) Math.round(rect.getBase()), 
+                (int) Math.round(rect.getAlto())
+            );
         }
 
         // Se comparan, VIVA EL OPEN SOURCE
@@ -80,12 +87,13 @@ class DibujoRectangulo extends JPanel {
                     ListaIntersectados.add(new Rectangulo(
                         Verificador.getPunto1Interseccion(rectA, rectB),
                         Verificador.getPunto2Interseccion(rectA, rectB)
-                    ));
+                    )); Rectangulo.numRect--;
                     System.out.println("Intersectan: " + rectA + " y " + rectB);
-                    System.out.println("Area de interseccion: " + Rectangulo.area(new Rectangulo(
+                    Rectangulo interseccion = new Rectangulo(
                         Verificador.getPunto1Interseccion(rectA, rectB),
                         Verificador.getPunto2Interseccion(rectA, rectB)
-                    )));
+                    );
+                    System.out.println((Verificador.isJunto(rectA, rectB)) ? "Estan juntos" : "Area de interseccion: " + Rectangulo.area(interseccion));
                 } else {
                     System.out.println("Son disjuntos: " + rectA + " y " + rectB);
                 }
