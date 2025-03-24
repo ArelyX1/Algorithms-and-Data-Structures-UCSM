@@ -1,12 +1,13 @@
 package Actividad;
-public class Caja <T>{
-    private Object objeto;
 
-    public void setObjeto(Object objeto){
+public class Caja<T> {
+    private T objeto;
+
+    public void setObjeto(T objeto) {
         this.objeto = objeto;
     }
 
-    public Object getObjeto(){
+    public T getObjeto() {
         return objeto;
     }
 }
