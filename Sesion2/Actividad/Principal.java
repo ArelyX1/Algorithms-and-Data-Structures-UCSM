@@ -21,7 +21,16 @@ public class Principal {
         bolsaGolo.add(g1);
         bolsaGolo.add(g2);
         for (Golosina golosina : bolsaGolo) {
-            System.out.println(golosina.getNombre() + " - " + golosina.getPeso() + "kg");
+            System.out.println(golosina);
         }
+
+        Cajoneria<Golosina> cajoneriaGolosinas = new Cajoneria<>();
+        cajoneriaGolosinas.addCaja(new Caja<>(new Golosina("gummy", 0.5), "Rojo"));
+        cajoneriaGolosinas.addCaja(new Caja<>(new Golosina("lollipop", 0.2), "Amarillo"));
+        cajoneriaGolosinas.addCaja(new Caja<>(new Golosina("jellybean", 0.3), "Verde"));
+        cajoneriaGolosinas.addCaja(new Caja<>(new Golosina("caramel", 0.4), "Azul"));
+        cajoneriaGolosinas.addCaja(new Caja<>(new Golosina("chocolate", 0.6), "Naranja"));
+
+        System.out.println(cajoneriaGolosinas);
     }
 }

@@ -33,8 +33,13 @@ public class Cajoneria<T> {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
+        sb.append("Posicion \tColorCaja \tObjeto\n");
         for (int i = 0; i < cajas.size(); i++) {
-            sb.append("Posicion: ").append(i + 1).append(", Objeto: ").append(cajas.get(i).getObjeto().toString()).append("\n");
+            sb.append("\t")
+            .append(i + 1).append("\t")
+              .append(cajas.get(i).getColor()).append("\t\t")
+              .append(cajas.get(i).getObjeto().toString())
+              .append("\n");
         }
         return sb.toString();
     }
