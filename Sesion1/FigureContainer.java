@@ -1,4 +1,4 @@
-package Sesion1v2;
+package Sesion1;
 
 class Node {
     Figura data;

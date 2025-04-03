@@ -1,4 +1,4 @@
-package Sesion1v2;
+package Sesion1;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;

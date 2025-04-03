@@ -1,4 +1,4 @@
-package Sesion1v2;
+package Sesion1;
 
 public class Verificador {
     public static Boolean isSuperposicion(Rectangulo r1, Rectangulo r2) {

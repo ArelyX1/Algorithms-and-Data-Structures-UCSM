@@ -1,4 +1,4 @@
-package Sesion1v2;
+package Sesion1;
 
 public class Coordenada {
     double x, y;
