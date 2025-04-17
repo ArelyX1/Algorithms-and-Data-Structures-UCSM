@@ -3,10 +3,10 @@ import java.util.Arrays;
 
 public class ViajeMasBarato {
     public static void main(String[] args) {
-        // Número de embarcaderos (indexados desde 0 hasta n-1)
+        // Número de embarcaderos
         int n = 5;
 
-        // Matriz de tarifas directas T (más realista)
+        // Matriz de tarifas directas T
         double[][] T = new double[n][n];
         
         // Inicializar con infinito
