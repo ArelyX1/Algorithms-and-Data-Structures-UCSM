@@ -24,3 +24,4 @@ public class SortFuerzBruta {
         }
     }
 }
+//mensaje duh
