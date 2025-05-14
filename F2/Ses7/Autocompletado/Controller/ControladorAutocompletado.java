@@ -39,7 +39,7 @@ public class ControladorAutocompletado {
         });
     }
 
-    private void actualizarSugerencias() {
+    private void actualizarSugerencias() { //O(1) amortizado
         String texto = vista.getCampoTexto().getText().trim();
         if (!texto.isEmpty()) {
             java.util.List<String> sugerencias = modelo.autocompletar(texto);

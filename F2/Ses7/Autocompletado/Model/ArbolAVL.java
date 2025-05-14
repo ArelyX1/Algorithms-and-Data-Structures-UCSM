@@ -219,11 +219,18 @@ public class ArbolAVL {
     }
 
     private void autocompletarRec(NodoAVL nodo, String prefijo, List<String> resultados) {
-        if (nodo != null) {
+        /*if (nodo != null) {
             if (nodo.palabra.startsWith(prefijo)) resultados.add(nodo.palabra);
             autocompletarRec(nodo.izquierda, prefijo, resultados);
             autocompletarRec(nodo.derecha, prefijo, resultados);
-        }
+        }*/
+        if (nodo == null) return;
+
+        int cmp = prefijo.compareTo(nodo.palabra);
+        // Si el prefijo es menor o igual, buscar en el subárbol izquierdo
+        if (cmp <= 0) autocompletarRec(nodo.izquierda, prefijo, resultados);
+        if (cmp <= 0 || nodo.palabra.startsWith(prefijo)) resultados.add(nodo.palabra);
+        if (cmp >= 0) autocompletarRec(nodo.derecha, prefijo, resultados);
     }
 
     public boolean existeEnPorDefecto(String palabra) {
