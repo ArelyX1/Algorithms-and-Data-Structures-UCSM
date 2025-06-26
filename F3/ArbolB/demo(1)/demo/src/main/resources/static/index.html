@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>B-Tree Visualizer</title>
+    <style>
+        .node {
+            display: inline-block;
+            border: 1px solid #333;
+            padding: 8px;
+            margin: 6px;
+            border-radius: 8px;
+            background: #f0f8ff;
+        }
+        .children {
+            margin-left: 30px;
+            border-left: 2px dashed #aaa;
+            padding-left: 10px;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 30px;
+        }
+        input, button {
+            margin: 0 5px 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <h2>B-Tree Visualizer</h2>
+    <div>
+        <input type="number" id="keyInput" placeholder="Key">
+        <button onclick="insertKey()">Insert</button>
+        <button onclick="deleteKey()">Delete</button>
+        <button onclick="searchKey()">Search</button>
+    </div>
+    <div id="searchResult"></div>
+    <hr>
+    <div id="treeContainer"></div>
+
+    <script>
+        const API_BASE = 'http://localhost:8080/api/btree';
+
+        async function fetchTree() {
+            const res = await fetch(`${API_BASE}/root`);
+            const data = await res.json();
+            renderTree(data);
+        }
+
+        function renderTree(node, container = document.getElementById('treeContainer')) {
+            container.innerHTML = '';
+            if (!node) {
+                container.innerHTML = '<em>The tree is empty</em>';
+                return;
+            }
+            container.appendChild(renderNode(node));
+        }
+
+        function renderNode(node) {
+            const nodeDiv = document.createElement('div');
+            nodeDiv.className = 'node';
+            nodeDiv.innerHTML = node.keys.join(', ');
+
+            if (node.children && node.children.length > 0) {
+                const childrenDiv = document.createElement('div');
+                childrenDiv.className = 'children';
+                node.children.forEach(child => {
+                    if (child) {
+                        childrenDiv.appendChild(renderNode(child));
+                    }
+                });
+                nodeDiv.appendChild(childrenDiv);
+            }
+            return nodeDiv;
+        }
+
+        async function insertKey() {
+            const key = document.getElementById('keyInput').value;
+            if (!key) return;
+            await fetch(`${API_BASE}/insert?key=${key}`, { method: 'POST' });
+            fetchTree();
+        }
+
+        async function deleteKey() {
+            const key = document.getElementById('keyInput').value;
+            if (!key) return;
+            await fetch(`${API_BASE}/delete?key=${key}`, { method: 'DELETE' });
+            fetchTree();
+        }
+
+        async function searchKey() {
+            const key = document.getElementById('keyInput').value;
+            if (!key) return;
+            const res = await fetch(`${API_BASE}/search?key=${key}`);
+            const found = await res.json();
+            document.getElementById('searchResult').innerText = found ? 
+                `Key ${key} found in the tree!` : 
+                `Key ${key} not found.`;
+        }
+
+        // Initial tree fetch
+        fetchTree();
+    </script>
+</body>
+</html>
